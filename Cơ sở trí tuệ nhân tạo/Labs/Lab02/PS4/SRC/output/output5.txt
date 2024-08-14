@@ -1,0 +1,24 @@
+7
+-A OR C OR -I
+-A
+C OR -E
+-C OR -E
+B OR -E OR -I
+E
+-A OR B OR -C
+14
+-A OR B OR -I
+-E OR -I
+B OR -I
+B OR -C
+{}
+C
+-A OR -C
+-A OR -E OR -I
+C OR -I
+B OR -E
+-A OR B OR -E OR -I
+-A OR B OR -E
+-A OR C
+-C
+YES

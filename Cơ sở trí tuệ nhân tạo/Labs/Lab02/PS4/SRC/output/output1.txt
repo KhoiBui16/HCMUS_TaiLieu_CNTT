@@ -1,0 +1,22 @@
+6
+-A OR C OR -I
+B OR -E OR -I
+-C
+-A OR B OR E
+C OR E
+D
+9
+-A OR B OR -I
+-E OR -I
+-A OR B OR C OR -I
+B OR E
+E
+C OR -I
+-A OR E
+B OR C OR -I
+-A OR -I
+2
+-I
+B OR -I
+0
+NO
