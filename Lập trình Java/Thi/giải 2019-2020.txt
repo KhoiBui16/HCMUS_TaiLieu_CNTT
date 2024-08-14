@@ -1,0 +1,236 @@
+Server:
+
+public Server{
+	public static void main(String[] args){
+		ServerSocket s = new ServerSocket(3200);
+		
+		do{
+			Socket currentClient = s.accept();
+			
+			Runnable handleClientThread = new Runnable(){
+				BufferedReader br = new BufferedReader(new InputStreamReader(currentClient.getInputStream()));
+				BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(currentClient.getOutputStream()));
+
+				do{
+					try{
+						string header = br.readLine();
+						switch(header){
+							case "xem":
+							{
+								ArrayList<String> allFileNames = new ArrayList<String>();
+								File folder = new File("/DATA/");
+								File[] fileList = folder.listFiles();
+								for(File file : fileList){
+									if(file.isFile()){
+										allFileNames.add(file.getName());
+									}
+								}
+								
+								bw.write(allFileNames.size().toString());
+								bw.newLine();
+								for(int i=0; i<allFileNames.size(); i++){
+									bw.write(file.getName());
+									bw.newLine();
+									bw.flush();
+								}
+							break;
+							}
+							
+							case "tim":
+							{
+								String keyword = br.readLine();
+								
+								ArrayList<String> filesWithKeyWord= new ArrayList<String>();
+								
+								File folder = new File("/DATA/");
+								File[] fileList = folder.listFiles();
+								for(File file : fileList){
+									if(file.isFile()){
+										FileReader fr = new FileReader("DATA/" +file.getName());
+										
+										String fileContent = "";
+										while(true){
+											int i = fr.read();
+											if(i==-1)
+												break;
+											fileContent += (char)i;
+										}
+										
+										if(fileContent.indexOf(keyWord) != -1){
+											filesWithKeyWord.add(file.getName());
+										}
+										
+										fr.close();
+									}
+								}
+								
+								bw.write(filesWithKeyWord.size().toString());
+								bw.newLine();
+								bw.flush();
+								for(int i =0; i<filesWithKeyWord.size(); i++){
+									bw.write(filesWithKeyWord);
+									bw.newLine();
+									bw.flush();
+								}
+							break;
+							}
+							
+							case "download":
+							{
+								String fileName = br.readLine();
+								FileReader fr = new FileReader("DATA/" +file.getName());
+										
+								String fileContent = "";
+								while(true){
+									int i = fr.read();
+									if(i==-1)
+										break;
+									fileContent += (char)i;
+								}
+								
+								wr.write(fileContent.size());
+								wr.newLine();
+								wr.write(fileContent);
+								wr.flush();
+								
+								fr.close();
+								break;
+							}
+						}
+					}catch(IOException e){
+						e.printStackTrace();
+						break;
+					}
+				}while(true);
+				
+			}
+		}while(true);
+	}
+}
+
+
+Client:
+class Client implements ActionListener{
+	
+	static Socket s;
+	static BufferedReader br;
+	static BufferedWriter bw;
+	static JTextField keywordField;
+	static JTextField downloadField;
+	static JLabel percentLabel;
+
+	public static void createAndShowGUI(){
+		JFrame frame = new JFrame();
+		JPanel mainContent = new JPanel();
+		
+		JButton xemButton = new JButton("Xem danh sách file trên server");
+		xemButton.setActionCommand("xem");
+		xemButton.addActionListener(this);
+		
+		keywordField = new JTextField();
+		JButton findKeyWord = new JButton("Tìm file có nội dung chứa keyword");
+		findKeyWord.setActionCommand("tim");
+		findKeyWord.addActionListener(this);
+		
+		downloadField = new JTextField();
+		JButton download = new JButton("Download file");
+		download.setActionCommand("download");
+		download.addActionListener(this);
+		
+		percentLabel = new JLabel();
+		
+		mainContent.add(xemButton);
+		mainContent.add(keywordField);
+		mainContent.add(findKeyWord);
+		mainContent.add(downloadField);
+		mainContent.add(download);
+		mainContent.add(percentLabel);
+		
+		frame.setContentPane(mainContent);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+	public static void main(String[] args){
+		
+		s = new Socket("localhost", 3200);
+		
+		br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		wr = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+		
+		createAndShowGUI();
+	}
+	
+	public void actionPerformed(ActionEvent e){
+		switch(e.getActionCommand()){
+			case "xem":
+			{
+				bw.write("xem");
+				bw.newLine();
+				bw.flush();
+				
+				int fileCount = Integer.parseInt(br.readLine());
+				ArrayList<String> allFileNames = new ArrayList<String>();
+				for(int i=0; i<fileCount;  i++){
+					allFileNames.add(br.readLine());
+				}
+				
+				string showStr = "";
+				for(int i=0; i<allFileNames.size(); i++){
+					showStr += allFileNames[i] + "\n";
+				}
+				
+				JOptionPane.showMessageDialog(this, showStr, "Các file trên server", JOptionPane.INFORMATION_MESSAGE);
+				break;
+			}
+			
+			case "tim":
+			{
+				bw.write("tim");
+				bw.newLine();
+				bw.write(keywordField.getText());
+				bw.newLine();
+				bw.flush();
+				
+				int fileCount = br.readLine();
+				ArrayList<String> allFiles = new ArrayList<String>();
+				for(int i=0; i<fileCount; i++){
+					allFiles.add(br.readLine());
+				}
+				
+				string showStr = "";
+				for(int i=0; i<allFiles.size(); i++){
+					showStr += allFiles[i] + "\n";
+				}
+				
+				JOptionPane.showMessageDialog(this, showStr, "Các file có keyword", JOptionPane.INFORMATION_MESSAGE);
+				break;
+			}
+			
+			case "download":
+			{
+				bw.write("download");
+				bw.newLine();
+				bw.write(downloadField.getText());
+				bw.newLine();
+				bw.flush();
+				
+				int contentSize = Integer.parseInt(br.readLine());
+				String content = "";
+				int byteReceived = 0;
+				while(byteReceived < contentSize){
+					content += br.read();
+					percentLabel.setText(((byteReceived/contentSize)*100).toString() + "%");
+					byteReceived++;
+				}
+				
+				File outFile = new File(downloadField.getText());
+				PrintWriter pw = new PrintWriter(outFile);
+				out.write(content);
+				out.close();
+				break;
+			}
+		}
+	}
+}

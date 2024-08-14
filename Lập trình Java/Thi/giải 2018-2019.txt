@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class Test{
+	
+	Scanner sc = new Scanner(System.in);
+	System.out.print("Nhap so dien tro: ");
+	int n = sc.nextInt();
+	int[] r = new int[n];
+	for(int i=0; i<n; i++){
+		sysout("Nhap gia tri dien tro R" + (i+1) + ": ";
+		r[i] = sc.nextInt();
+	}
+	Stack<char> stack = new Stack<char>();
+	
+	String inputStr = sc.nextLine();
+	
+	int i = 0;
+	while(i < inputStr.size()){
+		if(input[i] == '(')
+			stack.push(input[i]);
+		if(input[i] == 'R'){
+			i++;
+			String soTTDienTroStr = "";
+			while(input[i] < 48 && input[i] > 57)
+				soTTDienTroStr  += input[i++];
+			int soTTDienTro = Integer.parseInt(soTTDienTroStr);
+
+			stack.push(R[soTTDienTro-1]);
+		}
+		if(input[i] == '+'){
+			
+		}
+	}
+
+	sc.close();
+}
