@@ -1,0 +1,21 @@
+
+Công việc chính: (1)Thu thập được dữ liệu về COVID (có thể tham khảo, sao chép)
+	Chỉ cần thu thập trong 2 năm 2020, 2021
+	Tại TP.HCM (hoặc Việt Nam)
+Tùy vào dataset 
+
+(2) Em sẽ làm gì với bài toán đó --> Đặt ra bài toán và giải
+	Phải thuyết minh được bài toán của mình có ý nghĩa (motivation), và giải ==> Tư vấn cho người dân, người làm chính sách
+	Thầy đang cho chọn tự do và sáng tạo bài toán
+	ví dụ: Dự báo số lượng
+		Hôm nay 2000 F0
+		Ngày mai sẽ là bao nhiêu? mô hình SIR
+		Cứ sau bao lâu sẽ bùng dịch?
+		Bao lâu nữa sẽ ổn?
+	Có thể làm lại bài toán cũ, nhưng theo cách tiếp cận khác, mô hình khác
+		Dự báo định tính: tăng hay giảm, bao giờ ổn định
+		Câu hỏi của người làm chính sách: ngày mai, tuần sau tăng hay giảm, nhẹ hay mạnh --> dùng biện pháp phù hợp
+
+5 Pha
+	Pha 1: Làm Bước 1, phải thật kỹ (bài toán không quá tầm thường, cũng không quá sức)
+		--> Trong 10 ngày phải tạo ra được đầu bài -> proposal -> 1/4 - 1/2 A4, 300 - 800 từ

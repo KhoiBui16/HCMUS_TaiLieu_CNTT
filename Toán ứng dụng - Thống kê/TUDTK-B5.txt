@@ -1,0 +1,76 @@
+TIẾP CẬN GIẢI QUYẾT BÀI TOÁN THỰC TẾ
+Phương pháp chung: 5 bước (cần follow để viết report)
+	Bước 1: Đặt câu hỏi
+		Mô tả bằng ngôn ngữ tự nhiên nhưng dùng nhiều thuật ngữ chuyên ngành --> cẩn thận dùng từ
+		Viết xuống dưới dạng ngỗn ngữ toán học --> Viết mục tiêu trong CNTT (Đặc tả yêu cầu)
+			Liệt kê các biến, đi kèm đơn vị
+			Liệt kê các phương trình, bất phương trình: là quan hệ của các biến --> Điều kiện của lời giải
+			Liệt kê các ràng buộc liên quan đến biến (vd số ngày không âm)
+			Kiểm tra lại, các giả thiết đã hoàn tất hay chưa
+		==> WHAT, input/output, PreCondition/PostCondition
+	Bước 2: Chọn mô hình tiếp cận (tiếp cận sẽ sử dụng)
+		Thống kê, quy hoạch, tối ưu lồi, heuristic
+		# Hầu hết bài toán thực tế đều được phát biểu ở dạng chuẩn --> Có mẫu giải
+			Quy hoạch tuyến tính
+			Nhiều biến, giải tích hàm nhiều biến
+			Ít biến, quy hoạch động
+		# Nếu không có dạng chuẩn --> chỉ có thể dùng heuristic
+		# Người làm toán ứng dụng phân loại bài toán
+	Bước 3: Hình thức hóa mô hình (biểu diễn theo mô hình ngôn ngữ toán)
+		Kĩ thuật đơn giản nhất là đổi biến, đặt tên biến
+		# Mô hình này tạo ra để đưa cho người làm toán --> Phục vụ bước 2
+		# Ví dụ min f(x)
+	Bước 4: Giải mô hình
+		Nếu biểu diễn được dạng chuẩn: 
+			Sử dụng các thủ tục chuẩn để giải. 
+			Đa số sử dụng các công cụ có sẵn
+			--> Để người làm toán review được, phản biện được
+			Người làm nghiên cứu toán ứng dụng xây dựng các công cụ
+	Bước 5: Trả lời câu hỏi đặt ra (lời giải toán học, ở bước 2, 3, 4 và lời giải thực tế ở 1)
+		Ở số 1 lại cần lời giải thực tế
+		Người làm toán học cần thêm bước phân tích rủi ro
+			Phân tích sự nhạy cảm của biến giả thiết (sensitivity)
+===========================================================================================
+Minh họa trong bài toán chăn nuôi
+		Heo 200kg có thể xuất chuồng. 
+		Tăng 5kg/ngày. 
+		Chi phí 45k/ngày. 
+		Giá bán 65k/kg, rớt giá 10k/ngày
+	Bước 1: Question {var, equa, cond}
+		var: t(ngày), w(kg), p(đồng/kg), C (đồng/ngày), R(đồng), P(đồng)
+		Giả thiết:	w = 200 + 5t
+				p = 65 - 10t
+				C = 45t con số này có thể hơi nhạy cảm, không ổn định do heo ngày càng ăn nhiều
+				R = p * w
+				P = R - C
+		Mục tiêu:	Max P (điều kiện t >= 0)
+	Bước 2: Approach: thường có 2 cách tiếp cận: {data/non-data}
+	Bước 3: Model: viết lại theo đặc tả của người làm tin học {input/output + pre/postcondition}
+			P = R - C 	= pw - 4t 
+					= (65-10t)(200 + 5t) - 45t
+		Đổi biến: x thay t, viết lại dưới dạng hàm số
+			y = f(x) = (65 - 10t)(200 + 5t) - 45t  <-- Đây là model
+	Bước 4: Solve {maths solution}
+		# Nhận xét y = f(x) là hàm bậc 2, dạng đặc biệt của hàm toàn phương -> hàm lồi -> có nghiệm tối ưu ở cực trị (nghiệm của pt f'(x) = 0)
+		Tiếp cận bằng kỹ thuật đạo hàm f'(x) = 0 -> (x*, f(x*))		x* là lời giải, còn f(x*) là minh chứng của lời giải
+	Bước 5: Answer: {consultant solutions}
+		Phân tích độ nhạy của những giả định
+		+ Tăng 5kg/ngày? --> Tăng trọng thường không phải là hằng số --> Đặt là biến g(kg/ngày) thay cho hằng số 5
+		+ Rớt giá 10k/ngày? --> Đặt r(đồng/ngày)
+		Khi đó:
+			P = (65 - rt)(200 + gt) - 45t	<-- Đây là công thức của rủi ro
+		Đặt lại hàm rủi ro	S(u,v) --(sử dụng đạo hàm)--> du/u / dv/v = du/dv * v/u
+		-------------------------------------------
+		Tham số r -> p = 0.65 - rt (giả thiết ban đầu r = 0.01)
+			y = f(x) = (0.65-rx)(200 + 5x) - 0.45x
+			y'= ... -> giải pt y' = 0 			suy ra x = (7-500r) / 25r
+		Tham số g -> w = 200 + gt
+			y = f(x) = (0.65-0.01x)(200+gx) -0.65x
+			y' = -(2gx + 5(49-13g))/100 -> giải pt y' = 0 	suy ra x = 4(13g-49)/ 2g
+		Xét hàm rủi ro 
+			S(x, r) = dx/dr * r/x Sử dụng x* = 8, r* = 0.01 ở (4) 
+			S(x, g) = dx/dg * g/x Sử dụng x* = 8, g* = .... ở (4)
+			...
+			S(y, g) = dy/dg * g/y
+
+			Giả sử tính ra/khảo sát được S(x, r) = -7/2 -> Nếu x cứ tăng 20% thì r rớt 70%
