@@ -1,0 +1,16 @@
+A02: XX = 03
+H02: XX = 10
+P06 -> P17
+Với mỗi bài, comment 3 test case ở đầu hàm main.
+VD, với bài P06, tính sin.
+// TEST CASE 1:
+// Input: 0
+// Output: 0.00
+
+// TEST CASE 2:
+// Input: 90
+// Output: 1.00
+
+// TEST CASE 3:
+// Input: 180
+// Output: 0.00
